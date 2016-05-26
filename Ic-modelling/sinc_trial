@@ -1,0 +1,7 @@
+a = 5;
+x = linspace(-a,a,500);
+y = sinc(x);
+plot(x,y,'r',x,abs(y),'g')
+%plot(abs(fft(y)))
+
+y1 = integral(@(x)abs(sinc(x)),-5,5);
