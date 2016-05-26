@@ -1,7 +1,9 @@
 %--------------------------------------------------------------------
-%This version of the code contains use of the inbuilt hilbert function, and
-%my own integral equation
-%Error @ line 36 : "Index exceeds matrix dimensions"
+%This version of the code contains use of the inbuilt hilbert function as
+%well as the inbuilt ifft function
+%The variable x is used to construct functions consistently (local to each
+%function) and finally beta is substituted
+%Gives a graph of an impulse of height ~ 2E-11 at the origin
 %--------------------------------------------------------------------
 
 %constant definitions
@@ -15,7 +17,7 @@ d = 10E-9; L = 100E-9;
 
 %physical quantities
 width = 1; N=500;
-B = linspace(-width,width,N); %magnetic field vector
+B = linspace(-width,width,N);  %magnetic field vector
 flux = B*L*(2*lambda + d);
 I0 = 200E-6; %peak
 
@@ -29,15 +31,16 @@ theta = @(x)imag(hilbert(log(Ic(x))));
 
 plot(beta,Ic(B))
 plot(beta,theta(beta));
-    
-ft = zeros(size(B));
+
 for k=1:N
-   %constructing the exponential part with which Ic(beta) is multiplied in
-   %eqn(6) from the paper
-   exp_part = @(x)exp(1i*(theta(beta(k))-beta(k)*x));
-   
-   %implementing eqn(6) from the paper
-   ft = @(x)(0.5/pi)*integral(@(beta)Ic(beta(k))*exp_part(x),beta(1),beta(N));
+   %constructing a function of beta called transform which is essentially
+   %the fourier transform of Ix, to be inverse-transformed later
+   transform = @(x)Ic(x).*exp(1j*theta(x)); 
 end
 
-plot(dim,ft(dim));
+%inverse transform
+%Ix is the current density integrated along one dimension (expected to be a
+%square pulse from -d to +d)
+Ix = ifft(transform(beta));
+
+plot(dim,transform(beta));
