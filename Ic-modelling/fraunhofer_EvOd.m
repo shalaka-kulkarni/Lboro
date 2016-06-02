@@ -3,11 +3,12 @@ fluxQuantum = 2.06783383E-15;
 lambda = 39E-9; %London penetration depth of Niobium
 
 %geometry
-d = 10E-9; L = 100E-9;
+d = 10E-9; L = 300E-9;
 
 %physical quantities
-width = 0.16; N=500;
-B = linspace(-width,width,N);
+Bwidth = 0.01;
+N=3000;
+B = linspace(-Bwidth,Bwidth,N);
 beta = 2*pi*(2*lambda+d)*B/fluxQuantum;
 I0 = 200E-6; %peak
 
@@ -26,10 +27,12 @@ Ix = I_even + 1j*I_odd;
 
 Jx = ifft(Ix);
 %Jx = ifft(sinc(beta*L*(2*lambda+d)/fluxQuantum));
-%Jx = ifft(sinc(beta*L*(2*lambda+d)/fluxQuantum));
 
 Jx = ifftshift(abs(Jx));
 
 plot(beta, Ic_max, 'r', beta, I_even, 'g', beta, I_odd, 'b');
-plot(beta, Jx);
+
+spac_vect = linspace(-10E-9,10E-9,N);
+%plot(beta, Jx);
+plot(spac_vect, Jx);
 
