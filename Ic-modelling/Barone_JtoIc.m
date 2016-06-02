@@ -30,8 +30,9 @@ plot(f,P1);
 
 %%%%%%%%%%%%%%%%Trials%%%%%%%%%%%%%%%%%
 f1 = @(x)fft(heaviside(x+1) - heaviside(x-1));
-x11 = linspace(0,3,N);
-plot((f1(x11)));
+%x11 = linspace(0,3,3*N);
+x11 = 0:N;
+plot(x11,f1(x11));
 %plot(linspace(-4,4,500),ifft(heaviside(x+1) - heaviside(x-1)));
 
 
