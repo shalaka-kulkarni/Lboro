@@ -1,6 +1,6 @@
 %current density predefined/known
 
-a = 1; b = 1; N = 500;
+a = 10E-9; b = 10E-9; N = 100;
 
 J0 = @(x,y)(heaviside(x+a) - heaviside(x-a));
 
@@ -15,24 +15,21 @@ end
 
 plot(xvec,Ix);
 
-kvec = linspace (-4,4,N);
-Ic = @(k)abs(fft(Ix));
+kvec = linspace (-1,1,N);
+Ic = @(k)fftshift(abs(fft(Ix)));
 
-P2 = abs(Ic(kvec)/N);
-P1 = P2(1:N/2+1);
-P1(2:end-1) = 2*P1(2:end-1);
-f = kvec(1:N/2+1);
-plot(f,P1);
+plot(kvec,Ic(kvec));
+
+
+
+%%%%%%%%%%%%%%%%Trials%%%%%%%%%%%%%%%%%
 
 %plot(kvec,fft(sinc(kvec)));
 
-%plot(kvec,Ic(kvec));
-
-%%%%%%%%%%%%%%%%Trials%%%%%%%%%%%%%%%%%
-f1 = @(x)fft(heaviside(x+1) - heaviside(x-1));
+f1 = @(x)fftshift(fft(heaviside(x+1) - heaviside(x-1)));
 %x11 = linspace(0,3,3*N);
 x11 = 0:N;
-plot(x11,f1(x11));
+%plot(kvec,f1(kvec));
 %plot(linspace(-4,4,500),ifft(heaviside(x+1) - heaviside(x-1)));
 
 
