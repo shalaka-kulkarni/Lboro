@@ -19,12 +19,17 @@ plot(beta, Ic_max);
 [I_even, minX] = flipFn(Ic_max,beta);
 %plot(beta,I_even);
 
-I_odd = interp1(beta, I_even, minX);
+%I_odd = interp1(beta, I_even, minX);
+I_odd = zeros(size(I_even)); %debugging
 
 Ix = I_even + 1j*I_odd;
 
 Jx = ifft(Ix);
+%Jx = ifft(sinc(beta*L*(2*lambda+d)/fluxQuantum));
+%Jx = ifft(sinc(beta*L*(2*lambda+d)/fluxQuantum));
 
-%plot(beta, Ic_max, 'r', beta, I_even, 'g', beta, I_odd, 'b');
-%plot(beta, Jx);
+Jx = ifftshift(abs(Jx));
+
+plot(beta, Ic_max, 'r', beta, I_even, 'g', beta, I_odd, 'b');
+plot(beta, Jx);
 
