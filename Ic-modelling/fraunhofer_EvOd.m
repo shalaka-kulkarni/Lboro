@@ -28,8 +28,8 @@ if I_even(N/2)<0
     end
 end
 
-I_odd = interp1(B,Ic_max,minX)-Ic_max(N/2);
-
+I_odd = interp1(B,Ic_max,minX);%-Ic_max(N/2);
+plot(minX,I_odd,'-o');
 %I_odd = interp_flip(beta, Ic_max, minX, minCount);
 %I_odd = zeros(size(I_even)); %debugging
 
