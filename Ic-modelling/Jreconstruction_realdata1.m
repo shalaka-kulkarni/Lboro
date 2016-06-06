@@ -25,8 +25,9 @@ ylabel('I_c (uA)')
 
 [I_even, minX] = flipFn(Ic_max,B);
 
-%I_odd = interp1(B, I_even, minX);% - Ic_max(floor(n/2));
-I_odd = zeros(size(I_even)); %debugging
+I_odd = interp1(B, I_even, minX);% - Ic_max(floor(n/2));
+%I_odd = zeros(size(I_even)); %debugging
+plot(minX,I_odd);
 
 Ix = I_even + 1j*I_odd;
 
@@ -34,7 +35,7 @@ Jx = ifft(Ix);
 
 Jx = ifftshift(abs(Jx));
 
-plot(B, I_even*1E3, 'm', B, I_odd*1E3, 'b')
+plot(B, I_even*1E3, 'm', minX, I_odd*1E3, 'b')
 title('Even and odd components of peak critical current')
 xlabel('B (mT)')
 ylabel('I_c (uA)')
