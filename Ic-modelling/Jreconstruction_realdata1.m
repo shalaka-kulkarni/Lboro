@@ -11,28 +11,21 @@ A = csvread(filename);
 
 %physical quantities
 N = size(A); n = N(1);
-Ic_max = zeros(n,1);
-B = zeros(n,1);
+Ic_max = zeros(1,n);
+B = zeros(1,n);
 for i=1:n
-    B(i) = A(i,1);
-    Ic_max(i) = A(i,3);
+    B(i) = A(i,1); %in mT
+    Ic_max(i) = A(i,3); %in mA
 end
-beta = 2*pi*(2*lambda+d)*B/fluxQuantum;
 
-% I0 = 200E-6; %peak
-% 
-% Ic = @(x)I0*abs(sinc(x*L*(2*lambda+d)/fluxQuantum));
-% 
-% Ic_max = Ic(beta);
+plot(B, Ic_max*1E3)
+title('Peak critical current vs Magnetic field')
+xlabel('B (mT)')
+ylabel('I_c (uA)')
 
-plot(B, Ic_max);
-% Ic_prime = spline(B,Ic_max,B);
-% plot(B,Ic_max,'b',B,Ic_prime,'m');
+[I_even, minX] = flipFn(Ic_max,B);
 
-[I_even, minX] = flipFn(Ic_max,beta);
-%plot(beta,I_even);
-
-%I_odd = interp1(beta, I_even, minX);
+%I_odd = interp1(B, I_even, minX);% - Ic_max(floor(n/2));
 I_odd = zeros(size(I_even)); %debugging
 
 Ix = I_even + 1j*I_odd;
@@ -41,10 +34,17 @@ Jx = ifft(Ix);
 
 Jx = ifftshift(abs(Jx));
 
-plot(beta, Ic_max, 'r', beta, I_even, 'g', beta, I_odd, 'b');
+plot(B, I_even*1E3, 'm', B, I_odd*1E3, 'b')
+title('Even and odd components of peak critical current')
+xlabel('B (mT)')
+ylabel('I_c (uA)')
+legend('I_e', 'I_o')
 
-spac_vect = linspace(-10E-9,10E-9,n);
-%plot(beta, Jx);
-plot(spac_vect, Jx*1000);
+spac_vect = linspace(-d,d,n);
+%plot(B, Jx);
+plot(spac_vect*1E9, Jx*1E3, '-o');
+title('Current density')
+xlabel('x (nm)')
+ylabel('J (uA/m^2)')
 
 
