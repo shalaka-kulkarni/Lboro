@@ -11,6 +11,12 @@ function [F,minX,minCount] = flipFn(Y, X)
         end
     end
     
+    initVal = minX(minCount);
+    
+    for i=minCount+1:n
+        minX(i) = initVal;
+    end
+    
     multiplier = 1;    
     index = 1;
     F = zeros(size(Y));
