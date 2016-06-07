@@ -6,10 +6,10 @@ lambda = 90E-9; %London penetration depth of Niobium
 d = 10E-9; L = 500E-9;
 
 %physical quantities
-Bwidth = 0.1; %100mT
-N = 200; %no. of data points
+Bwidth = 0.15; %150mT
+N = 100; %no. of data points
 B = linspace(-Bwidth,Bwidth,N);
-beta = 2*pi*(2*lambda+d)*B/fluxQuantum;
+%beta = 2*pi*(2*lambda+d)*B/fluxQuantum;
 I0 = 200E-6; %peak current of 200uA
 
 Ic = @(x)I0*abs(sinc(x*L*(2*lambda+d)/fluxQuantum)); %sample fraunhofer pattern
@@ -46,7 +46,7 @@ xlabel('B (mT)')
 ylabel('I_c (uA)')
 legend('I_e', 'I_o')
 
-spac_vect = linspace(-2*d*1E9,2*d*1E9,N);
+spac_vect = linspace(-5*L*1E9/2,5*L*1E9/2,N);
 %plot(beta, Jx);
 plot(spac_vect, Jx*1E6)
 title('Current density')
