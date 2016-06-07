@@ -1,13 +1,13 @@
 %constant definitions
 fluxQuantum = 2.06783383E-15;
-lambda = 39E-9; %London penetration depth of Niobium
+lambda = 90E-9; %London penetration depth of Niobium
 
 %geometry
 d = 10E-9; L = 500E-9;
 
 %physical quantities
 Bwidth = 0.1; %100mT
-N = 300; %no. of data points
+N = 200; %no. of data points
 B = linspace(-Bwidth,Bwidth,N);
 beta = 2*pi*(2*lambda+d)*B/fluxQuantum;
 I0 = 200E-6; %peak current of 200uA
