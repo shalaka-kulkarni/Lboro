@@ -1,12 +1,12 @@
 %constant definitions
 fluxQuantum = 2.06783383E-15;
-lambda = 39E-9; %London penetration depth of Niobium
+lambda = 90E-9; %London penetration depth of Niobium
 
 %geometry
-d = 10E-9; L = 300E-9;
+d = 10E-9; L = 500E-9;
 
 %file i/o
-filename = 'data.csv';
+filename = 'data1.csv';
 A = csvread(filename);
 
 %physical quantities
@@ -27,13 +27,14 @@ ylabel('I_c (uA)')
 
 I_odd = interp1(B, I_even, minX);% - Ic_max(floor(n/2));
 %I_odd = zeros(size(I_even)); %debugging
-plot(minX,I_odd);
+%plot(minX,I_odd);
 
 Ix = I_even + 1j*I_odd;
 
 Jx = ifft(Ix);
 
 Jx = ifftshift(abs(Jx));
+plot(Jx);
 
 plot(B, I_even*1E3, 'm', minX, I_odd*1E3, 'b')
 title('Even and odd components of peak critical current')
@@ -41,9 +42,9 @@ xlabel('B (mT)')
 ylabel('I_c (uA)')
 legend('I_e', 'I_o')
 
-spac_vect = linspace(-d,d,n);
-%plot(B, Jx);
-plot(spac_vect*1E9, Jx*1E3, '-o');
+spac_vect = linspace(-L/2,L/2,n);
+a = simFraunhofer(d,L,abs(B(n)),n);
+plot(a*spac_vect*1E9, Jx*1E3, '-o');
 title('Current density')
 xlabel('x (nm)')
 ylabel('J (uA/m^2)')
