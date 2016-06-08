@@ -1,4 +1,4 @@
-function a = simFraunhofer(d,L,Bwidth,N)
+function a = simFraunhofer(d,L,Bwidth,N,spac_vect)
     %constant definitions
     fluxQuantum = 2.06783383E-15;
     lambda = 90E-9; %London penetration depth of Niobium
@@ -28,12 +28,14 @@ function a = simFraunhofer(d,L,Bwidth,N)
     [p1,p2] = getBoundary(Jx);
     
     %get X(p) as X(p) = avg(abs(X(p1)+X(p2)))
-    lim = (abs(B(p1)) + abs(B(p2)))/2;
+    lim = (abs(spac_vect(p1)) + abs(spac_vect(p2)))/2;
     
     %L/X(p) is the factor by which the scale should be expanded
     %L-->L*L/X(p) => X(p)-->X(p)*L/X(p)=L. Hence we get the pulse in our margins
     %return a=L/X(p)
     a = L/lim; 
     
-    spac_vect = linspace(-(L/2)*1E9,(L/2)*1E9,N);
-    plot(a*spac_vect,Jx);
+    plot(a*spac_vect*1E9,Jx*1E3)
+    title('Fraunhofer Current density')
+    xlabel('x (nm)')
+    ylabel('J (uA/m^2)')
