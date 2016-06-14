@@ -31,7 +31,7 @@ end
 % Ic = @(k)fftshift(abs(fft(Ix)));
 % Ic_max = Ic(kx);
 
-flux = B*L*(2*lambda+d);
+flux = (By*L + Bx*w)*(2*lambda+d);
 n = flux/fluxQuantum;
 plot(n, Ic_max2);
 % plot(B, Ic_max2,'-o');
