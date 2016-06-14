@@ -1,15 +1,16 @@
 %current density predefined/known
 fluxQuantum = 2.06783383E-15;
-L = 600E-9; w = 600E-9; d = 10E-9; N = 100;
-k = 2*pi*d/fluxQuantum;
+lambda = 90E-9;
+L = 600E-9; w = 600E-9; d = 10E-9; N = 500;
+k = 2*pi*(2*lambda+d)/fluxQuantum;
 
 pulse = @(t,a)(heaviside(t+a) - heaviside(t-a));
-J1 = @(x,y) pulse(x,L/2)*pulse(y,w/2);
+J1 = @(x,y) 1E7*pulse(x,L/2)*pulse(y,w/2);
 % J1 = @(x,y) (pulse(x,L/2)-pulse(x,L/4))*pulse(y,w/2);
 
 xvec = linspace(-L,L,N);
 yvec = linspace(-w,w,N); 
-Bwidth = 1;
+Bwidth = 0.15;
 theta = 0;
 c = cosd(theta);
 s = sind(theta);
@@ -30,8 +31,10 @@ end
 % Ic = @(k)fftshift(abs(fft(Ix)));
 % Ic_max = Ic(kx);
 
-plot(B, Ic_max2,'-o');
-% plot(B,spline(B,Ic_max,B/3),'-o');
+flux = B*L*(2*lambda+d);
+n = flux/fluxQuantum;
+plot(n, Ic_max2);
+% plot(B, Ic_max2,'-o');
 title('Peak critical current')
 xlabel('B')
 ylabel('I_c')
