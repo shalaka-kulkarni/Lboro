@@ -8,8 +8,9 @@ function Ic_max = J_to_Ic_2D_1(theta)
 
     pulse = @(t,a)(heaviside(t+a) - heaviside(t-a));
 %     J1 = @(x,y) J0*pulse(x,L/2)*pulse(y,w/2);
-    J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,L/4))*pulse(y,w/2);
-    % J1 = @(x,y) (pulse(x,L/2)-pulse(x,L/4))*(pulse(y,w/2)-pulse(y,w/4));
+%     J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,L/4))*pulse(y,w/2);
+%     J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,L/4))*(pulse(y,w/2)-pulse(y,w/4));
+    J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,9*L/20))*pulse(y,w/2);
 
 %     xvec = linspace(-L,L,N);
 %     yvec = linspace(-w,w,N); 
