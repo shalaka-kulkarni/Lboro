@@ -2,9 +2,10 @@ function Ic_max = J_to_Ic_2D_2(theta)
 
     fluxQuantum = 2.06783383E-15;
     lambda = 90E-9; 
-    L = 500E-9; w = 500E-9; d = 10E-9; N = 500;
+    L = 500E-9; w = 200E-9; d = 10E-9; N = 500;
     Bwidth = 0.15;
     k = 2*pi*(2*lambda+d)/fluxQuantum;
+    J0 = 1E7;
 
 %     f = @(x)(w/2); %rectangular
     % f = @(x) (w/2)*sqrt(1-4*(x*x)/(L*L)); %elliptical
@@ -12,8 +13,12 @@ function Ic_max = J_to_Ic_2D_2(theta)
     f = @(x)(w/2)*(1-(2/L)*abs(x)); %diamond
 
     pulse = @(t,a)(heaviside(t+a) - heaviside(t-a));
-    J1 = @(x,y) 1E7*pulse(x,L/2)*pulse(y,w/2);
-    % J1 = @(x,y) (pulse(x,L/2)-pulse(x,L/4))*pulse(y,w/2);
+%     J1 = @(x,y) J0*pulse(x,L/2)*pulse(y,w/2);
+%     J1 = @(x,y) (pulse(x,L/2)-pulse(x,L/4))*pulse(y,w/2);
+%     J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,L/4))*(pulse(y,w/2)-pulse(y,w/4));
+    J1 = @(x,y) J0*(pulse(x,L/2)-pulse(x,9*L/20))*pulse(y,w/2);
+%     J1 = @(x,y) J0*normpdf(x,0,L/4)*pulse(y,w/2);
+%     J1 = @(x,y) J0*pulse(x,L/2)*(pulse(y,w/2)-pulse(y,9*w/20));
     
     c = cosd(theta);
     s = sind(theta);
@@ -45,7 +50,7 @@ function Ic_max = J_to_Ic_2D_2(theta)
     % xlabel('\phi/\phi_0')
     % ylabel('I_c/I_0')
 
-%     plot(B*1E3, Ic_max/I0) 
-%     title('Peak critical current')
-%     xlabel('B (mT)')
-%     ylabel('I_c/I_0')
+    plot(B*1E3, Ic_max/I0) 
+    title('Peak critical current')
+    xlabel('B (mT)')
+    ylabel('I_c/I_0')
